@@ -43,4 +43,9 @@ export class NiftyMagick {
   writeJson() {
     writeFileSync(this.outJson, JSON.stringify(this.traits, null, 2));
   }
+  finish() {
+    this.flatten();
+    this.cleanup();
+    this.writeJson();
+  }
 }
