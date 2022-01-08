@@ -14,7 +14,7 @@ export class NiftyAssets {
         throw new Error(v + ' missing name:');
       }
       content.dir = dir;
-      m[content.type] = m[content.type] || [];
+      m[content.type] = m[content.type] || {};
       m[content.type][content.name] = content;
 
       content.paths = {};

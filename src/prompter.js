@@ -1,9 +1,11 @@
 import { prompt as inquire } from 'inquirerer';
 import { NiftyAssets } from './assets';
 import { getQuestionOrder } from './utils';
+import { getQuestionsFromMeta } from './questions';
+import inflection from 'inflection';
 
 export class TraitPrompter {
-  constructor({ argv, assetDir, questions }) {
+  constructor({ argv, assetDir, questions, schemas }) {
     this.argv = argv;
 
     // assets
@@ -13,6 +15,13 @@ export class TraitPrompter {
 
     // meta (assets with paths all set)
     const meta = assets.meta;
+
+    const additionalQuestions = getQuestionsFromMeta(schemas, assets.meta);
+    Object.values(additionalQuestions).forEach((q) => {
+      if (!questions.find((a) => a.name === q.name)) {
+        questions.push(q);
+      }
+    });
 
     // update colors to be lists with choosing a bg color
     const importedQuestions = questions.map((q) => {
@@ -55,9 +64,36 @@ export class TraitPrompter {
       ];
     }, importedQuestions);
 
-    this.questionOrder = getQuestionOrder(questions_);
-    this.questions = getQuestionOrder(questions_).map((name) => {
-      return questions_.find((a) => a.name === name);
+    const questionHash = questions_.reduce((m, v) => {
+      m[v.name] = v;
+      return m;
+    }, {});
+
+    questions_.forEach((x) => {
+      if (x.requiredBy) {
+        /*
+          {
+            "type": "confirm",
+            "name": "hasHat",
+            "requiredBy": ["hat"]
+          }
+        */
+        x.requiredBy.forEach((r) => {
+          const obj = questionHash[r];
+          obj.requires = obj.requires || [];
+          if (!obj.requires.includes(x.name)) {
+            obj.requires.push(x.name);
+          }
+          questionHash[r] = obj;
+        });
+      }
+    });
+
+    const __questions = Object.values(questionHash);
+
+    this.questionOrder = getQuestionOrder(__questions);
+    this.questions = getQuestionOrder(__questions).map((name) => {
+      return __questions.find((a) => a.name === name);
     });
     this.meta = meta;
   }

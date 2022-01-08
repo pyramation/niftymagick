@@ -1,10 +1,30 @@
-import fun from '../src';
-import cases from 'jest-in-case';
+import { NiftyAssets, getQuestionsFromMeta } from '../src';
+it('getQuestionsFromMeta', async () => {
+  // assets
+  const assets = new NiftyAssets({
+    assetDir: __dirname + '/../__fixtures__/'
+  });
+  const qs = getQuestionsFromMeta(
+    [
+      {
+        type: 'pattern',
+        ignore: true
+      }
+    ],
+    assets.meta
+  );
+  console.log(qs);
+});
 
-cases(
-  'first test',
-  options => {
-    fun(options);
-  },
-  [{ name: 'strings' }, { name: 'booleans' }, { name: 'noUnderscores' }]
-);
+// const questionDemo = [
+//   {
+//     type: 'confirm',
+//     name: 'someBooleanOption'
+//   },
+//   {
+//     type: 'confirm',
+//     name: 'anotherOption',
+//     requires: ['someBooleanOption'],
+//     check: (traits) => traits.someBooleanOption === true
+//   }
+// ];
