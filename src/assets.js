@@ -73,7 +73,7 @@ export class NiftyAssets {
     const confirms = this.content.reduce((m, v) => {
       const qName = inflection.camelize('has_' + v.type, true);
       const schema = this.schemas.find((s) => s.type === v.type);
-      if (schema && schema.ignore) return m;
+      if ((schema && schema.ignore) || (schema && schema.required)) return m;
       m[qName] = {
         type: 'confirm',
         name: qName,
