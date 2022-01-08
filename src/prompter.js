@@ -1,5 +1,5 @@
 import { prompt as inquire } from 'inquirerer';
-import { NiftyAssets } from './klass';
+import { NiftyAssets } from './assets';
 
 // https://www.electricmonk.nl/log/2008/08/07/dependency-resolving-algorithm/
 export const getDeps = (deps) => {
