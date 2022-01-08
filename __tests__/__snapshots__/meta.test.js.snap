@@ -1,0 +1,275 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`all 1`] = `
+"[
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasAnother\\",
+    \\"message\\": \\"hasAnother\\",
+    \\"requiredBy\\": [
+      \\"another\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"another\\",
+    \\"message\\": \\"another\\",
+    \\"choices\\": [
+      \\"another1\\",
+      \\"another2\\"
+    ],
+    \\"requires\\": [
+      \\"hasAnother\\"
+    ]
+  },
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasHair\\",
+    \\"message\\": \\"hasHair\\",
+    \\"requiredBy\\": [
+      \\"hair\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"hair\\",
+    \\"message\\": \\"hair\\",
+    \\"choices\\": [
+      \\"hair1\\"
+    ],
+    \\"requires\\": [
+      \\"hasHair\\"
+    ]
+  },
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasHat\\",
+    \\"message\\": \\"hasHat\\",
+    \\"requiredBy\\": [
+      \\"hat\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"hat\\",
+    \\"message\\": \\"hat\\",
+    \\"choices\\": [
+      \\"hat1\\"
+    ],
+    \\"requires\\": [
+      \\"hasHat\\"
+    ]
+  },
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasOtherhat\\",
+    \\"message\\": \\"hasOtherhat\\",
+    \\"requiredBy\\": [
+      \\"otherhat\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"otherhat\\",
+    \\"message\\": \\"otherhat\\",
+    \\"choices\\": [
+      \\"otherhat1\\"
+    ],
+    \\"requires\\": [
+      \\"hasOtherhat\\"
+    ]
+  },
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasPattern\\",
+    \\"message\\": \\"hasPattern\\",
+    \\"requiredBy\\": [
+      \\"pattern\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"pattern\\",
+    \\"message\\": \\"pattern\\",
+    \\"choices\\": [
+      \\"pattern1\\"
+    ],
+    \\"requires\\": [
+      \\"hasPattern\\"
+    ]
+  },
+  {
+    \\"name\\": \\"hasHairPattern\\",
+    \\"message\\": \\"hasHairPattern\\",
+    \\"type\\": \\"confirm\\",
+    \\"requires\\": [
+      \\"hasHair\\"
+    ],
+    \\"excludes\\": [
+      \\"hairColor\\"
+    ],
+    \\"willExclude\\": {
+      \\"hairColor\\": true
+    }
+  },
+  {
+    \\"name\\": \\"hairColor\\",
+    \\"message\\": \\"hairColor\\",
+    \\"type\\": \\"list\\",
+    \\"meta\\": \\"pattern\\",
+    \\"requires\\": [
+      \\"hasHair\\",
+      \\"hasHairPattern\\"
+    ],
+    \\"includedWhen\\": {
+      \\"hasHair\\": true
+    },
+    \\"choices\\": [
+      \\"pattern1\\"
+    ]
+  },
+  {
+    \\"name\\": \\"anotherThing\\",
+    \\"message\\": \\"anotherThing\\",
+    \\"type\\": \\"confirm\\",
+    \\"excludedWhen\\": {
+      \\"hasHair\\": false,
+      \\"hasHairPattern\\": true
+    },
+    \\"requires\\": [
+      \\"hasHair\\",
+      \\"hasHairPattern\\"
+    ]
+  },
+  {
+    \\"name\\": \\"hairPattern\\",
+    \\"message\\": \\"hairPattern\\",
+    \\"type\\": \\"list\\",
+    \\"meta\\": \\"pattern\\",
+    \\"requires\\": [
+      \\"hasHairPattern\\"
+    ],
+    \\"includedWhen\\": {
+      \\"hasHairPattern\\": true
+    },
+    \\"choices\\": [
+      \\"pattern1\\"
+    ]
+  }
+]"
+`;
+
+exports[`choices 1`] = `
+"[
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"another\\",
+    \\"message\\": \\"another\\",
+    \\"choices\\": [
+      \\"another1\\",
+      \\"another2\\"
+    ],
+    \\"requires\\": [
+      \\"hasAnother\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"hair\\",
+    \\"message\\": \\"hair\\",
+    \\"choices\\": [
+      \\"hair1\\"
+    ],
+    \\"requires\\": [
+      \\"hasHair\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"hat\\",
+    \\"message\\": \\"hat\\",
+    \\"choices\\": [
+      \\"hat1\\"
+    ],
+    \\"requires\\": [
+      \\"hasHat\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"otherhat\\",
+    \\"message\\": \\"otherhat\\",
+    \\"choices\\": [
+      \\"otherhat1\\"
+    ],
+    \\"requires\\": [
+      \\"hasOtherhat\\"
+    ]
+  },
+  {
+    \\"type\\": \\"list\\",
+    \\"name\\": \\"pattern\\",
+    \\"message\\": \\"pattern\\",
+    \\"choices\\": [
+      \\"pattern1\\"
+    ],
+    \\"requires\\": [
+      \\"hasPattern\\"
+    ]
+  }
+]"
+`;
+
+exports[`confirmations 1`] = `
+"[
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasAnother\\",
+    \\"message\\": \\"hasAnother\\",
+    \\"requiredBy\\": [
+      \\"another\\"
+    ]
+  },
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasHair\\",
+    \\"message\\": \\"hasHair\\",
+    \\"requiredBy\\": [
+      \\"hair\\"
+    ]
+  },
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasHat\\",
+    \\"message\\": \\"hasHat\\",
+    \\"requiredBy\\": [
+      \\"hat\\"
+    ]
+  },
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasOtherhat\\",
+    \\"message\\": \\"hasOtherhat\\",
+    \\"requiredBy\\": [
+      \\"otherhat\\"
+    ]
+  },
+  {
+    \\"type\\": \\"confirm\\",
+    \\"name\\": \\"hasPattern\\",
+    \\"message\\": \\"hasPattern\\",
+    \\"requiredBy\\": [
+      \\"pattern\\"
+    ]
+  }
+]"
+`;
+
+exports[`singleOpts 1`] = `
+"{
+  \\"hair\\": \\"hair1\\",
+  \\"hat\\": \\"hat1\\",
+  \\"otherhat\\": \\"otherhat1\\",
+  \\"pattern\\": \\"pattern1\\"
+}"
+`;
