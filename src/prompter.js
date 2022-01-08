@@ -1,17 +1,11 @@
 import { prompt as inquire } from 'inquirerer';
-import { NiftyAssets } from './assets';
 
 export class TraitPrompter {
-  constructor({ argv, assetDir, schemaDir, additionalQuestions }) {
+  constructor({ argv, assets }) {
     this.argv = argv;
-
-    // assets
-    this.assets = new NiftyAssets({
-      assetDir,
-      schemaDir,
-      additionalQuestions
-    });
-    this.questions = this.assets.questions;
+    this.assets = assets;
+    this.questions = assets.questions;
+    this.singleOpts = assets.singleOpts;
   }
   async getTraits() {
     const argv = this.argv;
