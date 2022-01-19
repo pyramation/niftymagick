@@ -80,22 +80,11 @@ exports[`all 1`] = `
     ]
   },
   {
-    \\"type\\": \\"confirm\\",
-    \\"name\\": \\"hasPattern\\",
-    \\"message\\": \\"hasPattern\\",
-    \\"requiredBy\\": [
-      \\"pattern\\"
-    ]
-  },
-  {
     \\"type\\": \\"list\\",
     \\"name\\": \\"pattern\\",
     \\"message\\": \\"pattern\\",
     \\"choices\\": [
       \\"pattern1\\"
-    ],
-    \\"requires\\": [
-      \\"hasPattern\\"
     ]
   },
   {
@@ -212,9 +201,6 @@ exports[`choices 1`] = `
     \\"message\\": \\"pattern\\",
     \\"choices\\": [
       \\"pattern1\\"
-    ],
-    \\"requires\\": [
-      \\"hasPattern\\"
     ]
   }
 ]"
@@ -253,14 +239,40 @@ exports[`confirmations 1`] = `
     \\"requiredBy\\": [
       \\"otherhat\\"
     ]
+  }
+]"
+`;
+
+exports[`schema 1`] = `
+"[
+  {
+    \\"type\\": \\"schema\\",
+    \\"name\\": \\"bg\\",
+    \\"required\\": true
   },
   {
-    \\"type\\": \\"confirm\\",
-    \\"name\\": \\"hasPattern\\",
-    \\"message\\": \\"hasPattern\\",
-    \\"requiredBy\\": [
-      \\"pattern\\"
-    ]
+    \\"type\\": \\"schema\\",
+    \\"name\\": \\"body\\",
+    \\"required\\": true
+  },
+  {
+    \\"type\\": \\"schema\\",
+    \\"name\\": \\"hair\\"
+  },
+  {
+    \\"type\\": \\"schema\\",
+    \\"name\\": \\"hat\\",
+    \\"excludes\\": \\"otherhat\\"
+  },
+  {
+    \\"type\\": \\"schema\\",
+    \\"name\\": \\"otherhat\\",
+    \\"excludes\\": \\"hat\\"
+  },
+  {
+    \\"type\\": \\"schema\\",
+    \\"name\\": \\"pattern\\",
+    \\"ignore\\": true
   }
 ]"
 `;

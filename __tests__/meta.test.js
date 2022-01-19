@@ -53,3 +53,6 @@ it('singleOpts', async () => {
 it('all', async () => {
   expect(JSON.stringify(assets.questions, null, 2)).toMatchSnapshot();
 });
+it('schema', async () => {
+  expect(JSON.stringify(assets.schemas, null, 2)).toMatchSnapshot();
+});

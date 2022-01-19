@@ -10,10 +10,9 @@ const getFiles = (dir) => {
 };
 
 export class NiftyAssets {
-  constructor({ assetDir, schemaDir, additionalQuestions }) {
+  constructor({ assetDir, additionalQuestions }) {
     this.content = [];
     this.assetFiles = getFiles(assetDir);
-    this.schemaFiles = getFiles(schemaDir);
     this.additionalQuestions = additionalQuestions || [];
     this.processAssets();
     this.processSchemata();
@@ -24,14 +23,20 @@ export class NiftyAssets {
   }
   processSchemata() {
     const objs = this.assetFiles.reduce((m, v) => {
-      const content = JSON.parse(readFileSync(v, 'utf-8'));
-      if (!content.type) {
-        throw new Error(v + ' missing type:');
+      let contents = JSON.parse(readFileSync(v, 'utf-8'));
+      if (!Array.isArray(contents)) contents = [contents];
+
+      for (let i = 0; i < contents.length; i++) {
+        const content = contents[i];
+        if (!content.type) {
+          throw new Error(v + ' missing type:');
+        }
+        if (!content.name) {
+          throw new Error(v + ' missing name:');
+        }
+        if (content.type !== 'schema') continue;
+        m[content.name] = content;
       }
-      if (!content.name) {
-        throw new Error(v + ' missing name:');
-      }
-      m[content.type] = content;
       return m;
     }, {});
     this.schemas = Object.values(objs);
@@ -40,39 +45,48 @@ export class NiftyAssets {
   processAssets() {
     this.meta = this.assetFiles.reduce((m, v) => {
       const dir = dirname(v);
-      const content = JSON.parse(readFileSync(v, 'utf-8'));
-      if (!content.type) {
-        throw new Error(v + ' missing type:');
-      }
-      if (!content.name) {
-        throw new Error(v + ' missing name:');
-      }
-      content.dir = dir;
-      m[content.type] = m[content.type] || {};
-      m[content.type][content.name] = content;
+      let contents = JSON.parse(readFileSync(v, 'utf-8'));
+      if (!Array.isArray(contents)) contents = [contents];
 
-      content.paths = {};
-      if (content.image) content.paths.image = join(content.dir, content.image);
-      if (content.fill) content.paths.fill = join(content.dir, content.fill);
-      if (content.stroke)
-        content.paths.stroke = join(content.dir, content.stroke);
-      if (content.shadow)
-        content.paths.shadow = join(content.dir, content.shadow);
-      if (content.back) {
-        content.paths.back = {};
-        if (content.back.fill)
-          content.paths.back.fill = join(content.dir, content.back.fill);
-        if (content.back.stroke)
-          content.paths.back.stroke = join(content.dir, content.back.stroke);
+      for (let i = 0; i < contents.length; i++) {
+        const content = contents[i];
+        if (!content.type) {
+          throw new Error(v + ' missing type:');
+        }
+        if (!content.name) {
+          throw new Error(v + ' missing name:');
+        }
+
+        if (content.type === 'schema') continue;
+
+        content.dir = dir;
+        m[content.type] = m[content.type] || {};
+        m[content.type][content.name] = content;
+
+        content.paths = {};
+        if (content.image)
+          content.paths.image = join(content.dir, content.image);
+        if (content.fill) content.paths.fill = join(content.dir, content.fill);
+        if (content.stroke)
+          content.paths.stroke = join(content.dir, content.stroke);
+        if (content.shadow)
+          content.paths.shadow = join(content.dir, content.shadow);
+        if (content.back) {
+          content.paths.back = {};
+          if (content.back.fill)
+            content.paths.back.fill = join(content.dir, content.back.fill);
+          if (content.back.stroke)
+            content.paths.back.stroke = join(content.dir, content.back.stroke);
+        }
+        this.content.push(content);
       }
-      this.content.push(content);
       return m;
     }, {});
   }
   processConfirmations() {
     const confirms = this.content.reduce((m, v) => {
       const qName = inflection.camelize('has_' + v.type, true);
-      const schema = this.schemas.find((s) => s.type === v.type);
+      const schema = this.schemas.find((s) => s.name === v.type);
       if ((schema && schema.ignore) || (schema && schema.required)) return m;
       m[qName] = {
         type: 'confirm',
@@ -199,7 +213,7 @@ export class NiftyAssets {
           log(`${q.name} if val:${val} excludes ${key}`);
           const check = !that.check ? chk : that.check;
           that.check = (traits) => {
-            return traits[q.name] == val && check();
+            return traits[q.name] == val && check(traits);
           };
         });
       }
@@ -221,7 +235,7 @@ export class NiftyAssets {
             log(`${q.name} if true excludes ${t}`);
             const check = !that.check ? chk : that.check;
             that.check = (traits) => {
-              return traits[q.name] && check();
+              return traits[q.name] && check(traits);
             };
           }
         });
@@ -238,7 +252,7 @@ export class NiftyAssets {
             log(`${q.name} requires ${t} is true`);
             const check = !q.check ? chk : q.check;
             q.check = (traits) => {
-              return traits[q.name] && check();
+              return traits[q.name] && check(traits);
             };
           }
         });
@@ -258,7 +272,7 @@ export class NiftyAssets {
           log(`${q.name} includedWhen ${key} is val:${val}`);
           const check = !q.check ? chk : q.check;
           q.check = (traits) => {
-            return traits[q.name] == val && check();
+            return traits[q.name] == val && check(traits);
           };
         });
       }
@@ -277,7 +291,7 @@ export class NiftyAssets {
           log(`${q.name} excludedWhen ${key} is val:${val}`);
           const check = !q.check ? chk : q.check;
           q.check = (traits) => {
-            return traits[q.name] != val && check();
+            return traits[q.name] != val && check(traits);
           };
         });
       }

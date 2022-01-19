@@ -1,5 +1,5 @@
 {
-    "type": "otherhat",
+    "type": "schema",
     "name": "otherhat",
     "excludes": "hat"
 }

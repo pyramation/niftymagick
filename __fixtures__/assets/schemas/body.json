@@ -1,0 +1,5 @@
+{
+    "type": "schema",
+    "name": "body",
+    "required": true
+}
